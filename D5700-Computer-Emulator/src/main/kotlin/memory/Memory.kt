@@ -1,4 +1,7 @@
 package org.example.memory
 
-class Memory {
+abstract class Memory(private val bytes: ByteArray) {
+
+    abstract fun read(address: Int): Byte
+    abstract fun write(address: Int, byte: Byte)
 }
