@@ -1,11 +1,16 @@
 package org.example.memory
 
-class RAM : Memory(ByteArray(4096)){
+class RAM : Memory(ByteArray(4096)) {
     override fun read(address: Int): Byte {
-        TODO("Not yet implemented")
+        val byte = bytes[address]
+        return byte
     }
 
     override fun write(address: Int, byte: Byte) {
-        TODO("Not yet implemented")
+        bytes[address] = byte
     }
+}
+
+object RAMManager {
+    val ram = RAM()
 }
