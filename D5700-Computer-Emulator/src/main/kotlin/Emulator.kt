@@ -8,10 +8,10 @@ class Emulator {
     private var cpu = CPU()
 
     fun run() {
+        println("Enter the path to the ROM binary file:")
         val filePath = readln()
         try {
-            val path = filePath ?: return
-            val binaryFile = File(path).takeIf { it.exists() } ?: throw Exception("File not found")
+            val binaryFile = File(filePath).takeIf { it.exists() } ?: throw Exception("File not found")
             val binaryProgram = try {
                 binaryFile.readBytes()
             } catch (e: Exception) {

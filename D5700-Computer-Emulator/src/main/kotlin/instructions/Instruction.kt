@@ -6,8 +6,8 @@ abstract class Instruction(protected val nibbles: ByteArray) {
     }
 
     fun execute() {
-        processNibbles()
-        performOperation()
+        process()
+        perform()
         incrementProgramCounter()
     }
 
@@ -15,7 +15,7 @@ abstract class Instruction(protected val nibbles: ByteArray) {
 
     }
 
-    protected abstract fun processNibbles()
-    protected abstract fun performOperation()
+    protected abstract fun process()
+    protected abstract fun perform()
 
 }

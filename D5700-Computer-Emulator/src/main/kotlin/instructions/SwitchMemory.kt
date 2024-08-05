@@ -1,11 +1,11 @@
 package org.example.instructions
 
 class SwitchMemory(nibbles: ByteArray) : Instruction(nibbles){
-    override fun processNibbles() {
+    override fun process() {
         TODO("Not yet implemented")
     }
 
-    override fun performOperation() {
+    override fun perform() {
         TODO("Not yet implemented")
     }
 }
