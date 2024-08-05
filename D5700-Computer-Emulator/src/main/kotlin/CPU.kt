@@ -13,7 +13,7 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
 
     private val executor = Executors.newSingleThreadScheduledExecutor()
     private val instructions = InstructionFactory()
-    private var rom = ROMManager.rom
+    private var rom: ROM? = null
 
     val cpu = Runnable {
         try {
@@ -80,8 +80,8 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
     private fun readInstructionP(): ByteArray {
         return try {
             val instruction = byteArrayToInt(p.readBytes())
-            val byte1 = rom.read(instruction)
-            val byte2 = rom.read(instruction + 1)
+            val byte1 = rom?.read(instruction) ?: 0
+            val byte2 = rom?.read(instruction + 1) ?: 0
             byteArrayOf(byte1, byte2)
         } catch (e: Exception) {
             byteArrayOf(0, 0)
