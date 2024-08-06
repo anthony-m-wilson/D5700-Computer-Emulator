@@ -2,8 +2,7 @@ package org.example.memory
 
 class RAM : Memory(ByteArray(4096)) {
     override fun read(address: Int): Byte {
-        val byte = bytes[address]
-        return byte
+        return bytes[address]
     }
 
     override fun write(address: Int, byte: Byte) {

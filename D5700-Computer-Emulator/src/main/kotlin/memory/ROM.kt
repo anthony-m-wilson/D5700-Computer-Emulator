@@ -1,9 +1,8 @@
 package org.example.memory
 
-class ROM(bytes: ByteArray) : Memory(ByteArray(4096)) {
+class ROM(bytes: ByteArray) : Memory(bytes) {
     override fun read(address: Int): Byte {
-        val byte = bytes[address]
-        return byte
+        return bytes[address]
     }
 
     override fun write(address: Int, byte: Byte) {
@@ -20,6 +19,4 @@ object ROMManager {
     fun getROM(): ROM {
         return rom ?: throw Exception("ROM not initialized")
     }
-
-
 }

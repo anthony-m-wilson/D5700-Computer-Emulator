@@ -1,10 +1,11 @@
 package org.example.memory
 
-abstract class Register(private val bytes: ByteArray) {
+import org.example.byteArrayToInt
+
+abstract class Register(val bytes: ByteArray) {
 
     fun readBytes(): ByteArray {
-        val readBytes = bytes.copyOf()
-        return readBytes
+        return bytes.copyOf()
     }
 
     abstract fun writeBytes(newBytes: ByteArray)
@@ -13,21 +14,26 @@ abstract class Register(private val bytes: ByteArray) {
 // general purpose registers
 class R : Register(ByteArray(1)) {
     override fun writeBytes(newBytes: ByteArray) {
-        TODO("Not yet implemented")
+        require(newBytes.size == 1)
+        newBytes.copyInto(destination = this.bytes, startIndex = 0, endIndex = 1)
     }
 }
 
 // special program counter register
 class P : Register(ByteArray(2)) {
     override fun writeBytes(newBytes: ByteArray) {
-        TODO("Not yet implemented")
+        require(newBytes.size == 2)
+        val intBytes = byteArrayToInt(newBytes)
+        require(intBytes % 2 == 0)
+        newBytes.copyInto(destination = this.bytes, startIndex = 0, endIndex = 2)
     }
 }
 
 // special timer register
 class T : Register(ByteArray(1)) {
     override fun writeBytes(newBytes: ByteArray) {
-        TODO("Not yet implemented")
+        require(newBytes.size == 1)
+        newBytes.copyInto(destination = this.bytes, startIndex = 0, endIndex = 1)
     }
 
 }
@@ -35,7 +41,8 @@ class T : Register(ByteArray(1)) {
 // special address register
 class A : Register(ByteArray(2)) {
     override fun writeBytes(newBytes: ByteArray) {
-        TODO("Not yet implemented")
+        require(newBytes.size == 2)
+        newBytes.copyInto(destination = this.bytes, startIndex = 0, endIndex = 2)
     }
 
 }
@@ -43,7 +50,10 @@ class A : Register(ByteArray(2)) {
 // special memory register
 class M : Register(ByteArray(1)) {
     override fun writeBytes(newBytes: ByteArray) {
-        TODO("Not yet implemented")
+        require(newBytes.size == 1)
+        val flag = newBytes[0].toInt() and 0xFF
+        require(flag == 0 || flag == 1)
+        newBytes.copyInto(destination = this.bytes, startIndex = 0, endIndex = 1)
     }
 
 }
