@@ -12,17 +12,12 @@ class Read(nibbles: ByteArray) : Instruction(nibbles) {
     private lateinit var registerX: R
 
     override fun process() {
-        val registerIndex = nibbles[1].toInt()
-        registerX = r[registerIndex]
+        registerX = r[nibbles.first().toInt()]
     }
 
     override fun perform() {
-        val byteArrayM = m.readBytes()
-        val isUsingROM = byteArrayM[0].toInt() != 0
-
-        val addressArray = a.readBytes()
-        val address = byteArrayToInt(addressArray)
-
+        val isUsingROM = m.readBytes().first().toInt() != 0
+        val address = byteArrayToInt(a.readBytes())
         val value = if (isUsingROM) ROMManager.getROM().read(address) else ram.read(address)
 
         registerX.writeBytes(byteArrayOf(value))

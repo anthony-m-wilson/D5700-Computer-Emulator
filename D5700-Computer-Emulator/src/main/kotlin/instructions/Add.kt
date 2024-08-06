@@ -10,18 +10,14 @@ class Add(nibbles: ByteArray) : Instruction(nibbles) {
     private lateinit var registerZ: R
 
     override fun process() {
-        val registerXIndex = nibbles[1].toInt()
-        val registerYIndex = nibbles[2].toInt()
-        val registerZIndex = nibbles[3].toInt()
-
-        registerX = r[registerXIndex]
-        registerY = r[registerYIndex]
-        registerZ = r[registerZIndex]
+        registerX = r[nibbles[0].toInt()]
+        registerY = r[nibbles[1].toInt()]
+        registerZ = r[nibbles[2].toInt()]
     }
 
     override fun perform() {
-        val registerXValue = registerX.readBytes()[0].toInt()
-        val registerYValue = registerY.readBytes()[0].toInt()
+        val registerXValue = registerX.readBytes().first().toInt()
+        val registerYValue = registerY.readBytes().first().toInt()
 
         val sum = (registerXValue + registerYValue).toByte()
 

@@ -10,13 +10,8 @@ class Store(nibbles: ByteArray) : Instruction(nibbles) {
 
 
     override fun process() {
-        val registerXIndex = nibbles.first().toInt()
-        registerX = r[registerXIndex]
-
-        val nibbleHigh = nibbles[1]
-        val nibbleLow = nibbles[2]
-
-        byte = combineNibbles(nibbleHigh, nibbleLow)
+        registerX = r[nibbles.first().toInt()]
+        byte = combineNibbles(nibbles[1], nibbles[2])
     }
 
     override fun perform() {

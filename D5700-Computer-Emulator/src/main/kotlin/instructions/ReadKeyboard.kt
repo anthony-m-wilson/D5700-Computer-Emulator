@@ -16,25 +16,18 @@ class ReadKeyboard(nibbles: ByteArray) : Instruction(nibbles) {
 
     override fun perform() {
         TimerManager.timer.set(true)
-        println("Enter a hex value (0-F): ")
-        val input = readln().trim().uppercase()
-        val byte = hexValue(input)
 
+        println("Enter a hex value (0-F): ")
+        val byte = hexValue(readln().trim().uppercase())
         registerX.writeBytes(byteArrayOf(byte))
 
         TimerManager.timer.set(false)
     }
 
     private fun hexValue(input: String): Byte {
-        if (input.isEmpty() || !input.matches(Regex("^[0-9A-F]*$"))) {
-            return 0
-        }
-
-        return try {
-            val hexString = input.take(2)
-            hexString.toInt(16).toByte()
-        } catch (e: NumberFormatException) {
-            0
-        }
+        return input.takeIf { it.matches(Regex("^[0-9A-F]{1,2}$")) }
+            ?.toIntOrNull(16)
+            ?.toByte()
+            ?: 0
     }
 }

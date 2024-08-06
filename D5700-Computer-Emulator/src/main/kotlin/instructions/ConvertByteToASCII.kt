@@ -8,11 +8,8 @@ class ConvertByteToASCII(nibbles: ByteArray) : Instruction(nibbles) {
     private lateinit var registerY: R
 
     override fun process() {
-        val registerXIndex = nibbles[0].toInt()
-        val registerYIndex = nibbles[1].toInt()
-
-        registerX = r[registerXIndex]
-        registerY = r[registerYIndex]
+        registerX = r[nibbles[0].toInt()]
+        registerY = r[nibbles[1].toInt()]
     }
 
     override fun perform() {

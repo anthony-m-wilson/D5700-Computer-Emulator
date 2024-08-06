@@ -1,11 +1,15 @@
 package org.example.instructions
 
-class SwitchMemory(nibbles: ByteArray) : Instruction(nibbles){
+import org.example.memory.MManager.m
+
+class SwitchMemory(nibbles: ByteArray) : Instruction(nibbles) {
     override fun process() {
-        TODO("Not yet implemented")
+        // No processing needed
     }
 
     override fun perform() {
-        TODO("Not yet implemented")
+        val currentM = m.readBytes().first().toInt()
+        val newM = if (currentM == 0) 1 else 0
+        m.writeBytes(byteArrayOf(newM.toByte()))
     }
 }

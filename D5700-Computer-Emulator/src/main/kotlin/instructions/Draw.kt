@@ -10,8 +10,7 @@ class Draw(nibbles: ByteArray) : Instruction(nibbles) {
     private var col: Byte = 0
 
     override fun process() {
-        val registerXIndex = nibbles.first().toInt()
-        registerX = r[registerXIndex]
+        registerX = r[nibbles.first().toInt()]
         row = nibbles[1]
         col = nibbles[2]
     }

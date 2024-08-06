@@ -3,7 +3,7 @@ package org.example.instructions
 import org.example.intToByteArray
 import org.example.memory.AManager.a
 
-class SetA(nibbles: ByteArray) : Instruction(nibbles){
+class SetA(nibbles: ByteArray) : Instruction(nibbles) {
 
     private lateinit var addressBytes: ByteArray
 
