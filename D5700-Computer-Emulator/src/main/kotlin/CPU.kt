@@ -43,6 +43,9 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
             }
         } catch (_: Exception) {
         }
+        if (executor.isShutdown) {
+            return@Runnable
+        }
     }
 
     fun execute(rom: ROM) {
@@ -64,8 +67,9 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
         try {
             cpuFuture.get()
             timerFuture.get()
-        } catch (e: Exception) {
-            println("Error executing: ${e.message}")
+        } catch (e: InterruptedException) {
+            println("Execution interrupted: ${e.message}")
+            Thread.currentThread().interrupt()
         } finally {
             executor.shutdown()
         }

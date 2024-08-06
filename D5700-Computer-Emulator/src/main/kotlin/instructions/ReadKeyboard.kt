@@ -19,6 +19,7 @@ class ReadKeyboard(nibbles: ByteArray) : Instruction(nibbles) {
 
         println("Enter a hex value (0-F): ")
         val byte = hexValue(readln().trim().uppercase())
+
         registerX.writeBytes(byteArrayOf(byte))
 
         TimerManager.timer.set(false)

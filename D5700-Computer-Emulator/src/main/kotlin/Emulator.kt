@@ -8,17 +8,17 @@ import java.io.IOException
 class Emulator {
     private var cpu = CPU()
 
-    fun run() {
-        println("Enter the path to the ROM binary file:")
-        val filePath = readlnOrNull() ?: return println("No path provided")
+    fun run(path: String) {
+        if (path.isBlank()) throw IllegalArgumentException("Path to binary file is empty")
+        val file = File(path)
+        if (!file.exists()) throw IllegalArgumentException("File not found: $path")
 
         try {
-            val binaryFile = getBinaryFile(filePath)
+            val binaryFile = getBinaryFile(path)
             val binaryProgram = getBinaryProgramFromBinaryFile(binaryFile)
             val rom = getRom(binaryProgram)
             cpu.execute(rom)
-        } catch (e: Exception) {
-            println("Error: ${e.message}")
+        } catch (_: Exception) {
         }
     }
 
