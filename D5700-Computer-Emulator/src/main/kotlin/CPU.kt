@@ -3,7 +3,6 @@ package org.example
 import org.example.instructions.InstructionFactory
 import org.example.memory.PManager.p
 import org.example.memory.ROM
-import org.example.memory.ROMManager
 import org.example.memory.TManager.t
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -15,7 +14,7 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
     private val instructions = InstructionFactory()
     private var rom: ROM? = null
 
-    val cpu = Runnable {
+    private val cpu = Runnable {
         try {
             val bytes = readInstructionP()
             require(bytes.size == 2)
@@ -23,30 +22,24 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
                 executor.shutdown()
                 return@Runnable
             }
-            val nibblesPair1 = byteToNibbles(bytes[0])
-            val nibblesPair2 = byteToNibbles(bytes[1])
+            val (nibble0, nibble1) = byteToNibbles(bytes[0])
+            val (nibble2, nibble3) = byteToNibbles(bytes[1])
 
-            val nibble0 = nibblesPair1.first
-            val nibble1 = nibblesPair1.second
-            val nibble2 = nibblesPair2.first
-            val nibble3 = nibblesPair2.second
 
             val instruction = instructions.createInstruction(nibble0, nibble1, nibble2, nibble3)
             instruction.execute()
         } catch (_: Exception) {
             executor.shutdown()
-            return@Runnable
         }
     }
 
-    val timer = Runnable {
+    private val timer = Runnable {
         try {
-            if (TimerManager.timer.get()) {
-                return@Runnable
-            }
-            val currentT = t.readBytes()[0].toInt()
-            if (currentT > 0) {
-                t.writeBytes(byteArrayOf((currentT - 1).toByte()))
+            if (!TimerManager.timer.get()) {
+                val currentT = t.readBytes()[0].toInt()
+                if (currentT > 0) {
+                    t.writeBytes(byteArrayOf((currentT - 1).toByte()))
+                }
             }
         } catch (_: Exception) {
         }
@@ -71,21 +64,18 @@ class CPU(private val instructionSpeed: Long = 2L, private val timerSpeed: Long 
         try {
             cpuFuture.get()
             timerFuture.get()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            println("Error executing: ${e.message}")
         } finally {
             executor.shutdown()
         }
     }
 
     private fun readInstructionP(): ByteArray {
-        return try {
-            val instruction = byteArrayToInt(p.readBytes())
-            val byte1 = rom?.read(instruction) ?: 0
-            val byte2 = rom?.read(instruction + 1) ?: 0
-            byteArrayOf(byte1, byte2)
-        } catch (e: Exception) {
-            byteArrayOf(0, 0)
-        }
+        val instruction = byteArrayToInt(p.readBytes())
+        val byte1 = rom?.read(instruction) ?: 0
+        val byte2 = rom?.read(instruction + 1) ?: 0
+        return byteArrayOf(byte1, byte2)
     }
 }
 

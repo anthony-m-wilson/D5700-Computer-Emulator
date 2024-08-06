@@ -6,15 +6,13 @@ class Display {
         const val HEIGHT = 8
     }
 
-    val frameBuffer: ByteArray = ByteArray(WIDTH * HEIGHT)
+    private val frameBuffer: ByteArray = ByteArray(WIDTH * HEIGHT)
 
     private fun printDisplay() {
         println("=".repeat(WIDTH))
-        for (i in 0 until HEIGHT) {
-            for (j in 0 until WIDTH) {
-                print(frameBuffer[i * WIDTH + j].toInt().toChar())
-            }
-            println()
+        frameBuffer.forEachIndexed { index, byte ->
+            print(byte.toInt().toChar())
+            if ((index + 1) % WIDTH == 0) println()
         }
     }
 
