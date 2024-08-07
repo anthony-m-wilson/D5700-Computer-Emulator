@@ -10,6 +10,6 @@ class RAM : Memory(ByteArray(4096)) {
     }
 }
 
-object RAMManager {
+object Ram {
     val ram = RAM()
 }

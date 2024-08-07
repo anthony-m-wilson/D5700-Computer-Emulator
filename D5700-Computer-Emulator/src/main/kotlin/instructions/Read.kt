@@ -4,9 +4,9 @@ import org.example.byteArrayToInt
 import org.example.memory.AManager.a
 import org.example.memory.MManager.m
 import org.example.memory.R
-import org.example.memory.RAMManager.ram
+import org.example.memory.Ram.ram
 import org.example.memory.RManager.r
-import org.example.memory.ROMManager
+import org.example.memory.Rom
 
 class Read(nibbles: ByteArray) : Instruction(nibbles) {
     private lateinit var registerX: R
@@ -18,7 +18,7 @@ class Read(nibbles: ByteArray) : Instruction(nibbles) {
     override fun perform() {
         val isUsingROM = m.readBytes().first().toInt() != 0
         val address = byteArrayToInt(a.readBytes())
-        val value = if (isUsingROM) ROMManager.getROM().read(address) else ram.read(address)
+        val value = if (isUsingROM) Rom.getROM().read(address) else ram.read(address)
 
         registerX.writeBytes(byteArrayOf(value))
     }

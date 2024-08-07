@@ -6,7 +6,7 @@ class Display {
         const val HEIGHT = 8
     }
 
-    val frameBuffer: ByteArray = ByteArray(WIDTH * HEIGHT)
+    private val frameBuffer: ByteArray = ByteArray(WIDTH * HEIGHT)
 
     private fun printDisplay() {
         println("=".repeat(WIDTH))

@@ -10,7 +10,7 @@ class ROM(bytes: ByteArray) : Memory(bytes) {
     }
 }
 
-object ROMManager {
+object Rom {
     private var rom: ROM? = null
 
     fun initializeROM(bytes: ByteArray) {

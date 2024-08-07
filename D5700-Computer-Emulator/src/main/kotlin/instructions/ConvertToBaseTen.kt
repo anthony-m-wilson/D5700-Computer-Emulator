@@ -4,9 +4,9 @@ import org.example.byteArrayToInt
 import org.example.memory.AManager.a
 import org.example.memory.MManager.m
 import org.example.memory.R
-import org.example.memory.RAMManager.ram
+import org.example.memory.Ram.ram
 import org.example.memory.RManager.r
-import org.example.memory.ROMManager
+import org.example.memory.Rom
 
 class ConvertToBaseTen(nibbles: ByteArray) : Instruction(nibbles) {
     private lateinit var registerX: R
@@ -24,7 +24,7 @@ class ConvertToBaseTen(nibbles: ByteArray) : Instruction(nibbles) {
 
 
         val isUsingROM = m.readBytes()[0].toInt() != 0
-        val memory = if (isUsingROM) ROMManager.getROM() else ram
+        val memory = if (isUsingROM) Rom.getROM() else ram
 
         memory.write(address, hundreds.toByte())
         memory.write(address + 1, tens.toByte())
